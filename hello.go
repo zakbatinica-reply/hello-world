@@ -2,9 +2,20 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
+
+func getEnvironment() string {
+	if _, present := os.LookupEnv("KUBERNETES_SERVICE_HOST"); present {
+		return "Running in Kubernetes ☸️"
+	}
+	if _, err := os.Stat("/.dockerenv"); err == nil {
+		return "Running in Docker 🐳"
+	}
+	return "Running Natively 💻"
+}
 
 func main() {
 	r := gin.Default()
@@ -18,8 +29,9 @@ func main() {
 		}
 
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title":   "Hello, World!",
-			"headers": headers,
+			"title":       "Hello, World!",
+			"environment": getEnvironment(),
+			"headers":     headers,
 		})
 	})
 
