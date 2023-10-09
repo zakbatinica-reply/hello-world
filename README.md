@@ -6,7 +6,7 @@ This is a simple web application written in Go using the Gin framework. It serve
 
 ## Prerequisites
 
-- Go 1.16 or later
+- Go 1.21.2 or later
 
 ## Directory Structure
 
